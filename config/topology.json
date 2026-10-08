@@ -1,0 +1,270 @@
+{
+  "staging": [
+    {
+      "name": "staging-01",
+      "kind": "staging",
+      "host": "127.0.0.1",
+      "port": 2201,
+      "username": "collector",
+      "path": "/exports"
+    },
+    {
+      "name": "staging-02",
+      "kind": "staging",
+      "host": "127.0.0.1",
+      "port": 2202,
+      "username": "collector",
+      "path": "/exports"
+    },
+    {
+      "name": "staging-03",
+      "kind": "staging",
+      "host": "127.0.0.1",
+      "port": 2203,
+      "username": "collector",
+      "path": "/exports"
+    },
+    {
+      "name": "staging-04",
+      "kind": "staging",
+      "host": "127.0.0.1",
+      "port": 2204,
+      "username": "collector",
+      "path": "/exports"
+    },
+    {
+      "name": "staging-05",
+      "kind": "staging",
+      "host": "127.0.0.1",
+      "port": 2205,
+      "username": "collector",
+      "path": "/exports"
+    },
+    {
+      "name": "staging-06",
+      "kind": "staging",
+      "host": "127.0.0.1",
+      "port": 2206,
+      "username": "collector",
+      "path": "/exports"
+    },
+    {
+      "name": "staging-07",
+      "kind": "staging",
+      "host": "127.0.0.1",
+      "port": 2207,
+      "username": "collector",
+      "path": "/exports"
+    },
+    {
+      "name": "staging-08",
+      "kind": "staging",
+      "host": "127.0.0.1",
+      "port": 2208,
+      "username": "collector",
+      "path": "/exports"
+    },
+    {
+      "name": "staging-09",
+      "kind": "staging",
+      "host": "127.0.0.1",
+      "port": 2209,
+      "username": "collector",
+      "path": "/exports"
+    }
+  ],
+  "destinations": [
+    {
+      "name": "dest-br01",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2301,
+      "username": "br01-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br02",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2302,
+      "username": "br02-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br03",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2303,
+      "username": "br03-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br04",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2304,
+      "username": "br04-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br05",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2305,
+      "username": "br05-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br06",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2306,
+      "username": "br06-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br07",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2307,
+      "username": "br07-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br08",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2308,
+      "username": "br08-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br09",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2309,
+      "username": "br09-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br10",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2310,
+      "username": "br10-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br11",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2311,
+      "username": "br11-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br12",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2312,
+      "username": "br12-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br13",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2313,
+      "username": "br13-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br14",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2314,
+      "username": "br14-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br15",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2315,
+      "username": "br15-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br16",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2316,
+      "username": "br16-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br17",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2317,
+      "username": "br17-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br18",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2318,
+      "username": "br18-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br19",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2319,
+      "username": "br19-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br20",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2320,
+      "username": "br20-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br21",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2321,
+      "username": "br21-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br22",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2322,
+      "username": "br22-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br23",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2323,
+      "username": "br23-drop",
+      "path": "/inbound"
+    },
+    {
+      "name": "dest-br24",
+      "kind": "destination",
+      "host": "127.0.0.1",
+      "port": 2324,
+      "username": "br24-drop",
+      "path": "/inbound"
+    }
+  ]
+}

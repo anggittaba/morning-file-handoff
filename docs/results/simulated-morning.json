@@ -1,0 +1,191 @@
+{
+  "day": "2026-10-08",
+  "branches": 24,
+  "passes": 22,
+  "pass_times": [
+    "06:00",
+    "06:05",
+    "06:10",
+    "06:15",
+    "06:20",
+    "06:25",
+    "06:30",
+    "06:35",
+    "06:40",
+    "06:45",
+    "06:50",
+    "06:55",
+    "07:00",
+    "07:05",
+    "07:10",
+    "07:15",
+    "07:20",
+    "07:25",
+    "07:30",
+    "07:35",
+    "07:40",
+    "07:45"
+  ],
+  "scheduled_total": 16,
+  "scheduled_by_deadline": 16,
+  "last_scheduled_at": "2026-10-08T07:10:00",
+  "clean_branches": 13,
+  "clean_scheduled": 13,
+  "clean_last_scheduled_at": "2026-10-08T06:20:00",
+  "first_pass": {
+    "at": "06:00",
+    "scheduled": 8,
+    "wall_ms": 1001
+  },
+  "wall_ms_per_pass": {
+    "total": 5428,
+    "max": 1001,
+    "median": 202
+  },
+  "wall_seconds_whole_run": 5.48,
+  "final_status": {
+    "scheduled": 16,
+    "failed": 8
+  },
+  "needs_a_person": [
+    "BR03",
+    "BR08",
+    "BR11",
+    "BR17",
+    "BR19",
+    "BR20",
+    "BR22",
+    "BR23"
+  ],
+  "injected": 11,
+  "classified_correctly": 11,
+  "classification": [
+    {
+      "branch": "BR03",
+      "injected": "missing",
+      "expected": "missing",
+      "classified": [
+        "late",
+        "missing"
+      ],
+      "correct": true,
+      "final_status": "failed"
+    },
+    {
+      "branch": "BR05",
+      "injected": "late",
+      "expected": "late",
+      "classified": [
+        "late"
+      ],
+      "correct": true,
+      "final_status": "scheduled"
+    },
+    {
+      "branch": "BR08",
+      "injected": "empty",
+      "expected": "empty",
+      "classified": [
+        "empty"
+      ],
+      "correct": true,
+      "final_status": "failed"
+    },
+    {
+      "branch": "BR09",
+      "injected": "transient",
+      "expected": "network",
+      "classified": [
+        "network"
+      ],
+      "correct": true,
+      "final_status": "scheduled"
+    },
+    {
+      "branch": "BR11",
+      "injected": "truncated",
+      "expected": "truncated",
+      "classified": [
+        "truncated"
+      ],
+      "correct": true,
+      "final_status": "failed"
+    },
+    {
+      "branch": "BR13",
+      "injected": "checksum_mismatch",
+      "expected": "checksum_mismatch",
+      "classified": [
+        "checksum_mismatch"
+      ],
+      "correct": true,
+      "final_status": "scheduled"
+    },
+    {
+      "branch": "BR17",
+      "injected": "duplicate_conflict",
+      "expected": "duplicate_conflict",
+      "classified": [
+        "duplicate_conflict"
+      ],
+      "correct": true,
+      "final_status": "failed"
+    },
+    {
+      "branch": "BR19",
+      "injected": "stale",
+      "expected": "stale",
+      "classified": [
+        "stale"
+      ],
+      "correct": true,
+      "final_status": "failed"
+    },
+    {
+      "branch": "BR20",
+      "injected": "auth_failure",
+      "expected": "auth_failure",
+      "classified": [
+        "auth_failure"
+      ],
+      "correct": true,
+      "final_status": "failed"
+    },
+    {
+      "branch": "BR22",
+      "injected": "disk_full",
+      "expected": "disk_full",
+      "classified": [
+        "disk_full"
+      ],
+      "correct": true,
+      "final_status": "failed"
+    },
+    {
+      "branch": "BR23",
+      "injected": "permission_denied",
+      "expected": "permission_denied",
+      "classified": [
+        "permission_denied"
+      ],
+      "correct": true,
+      "final_status": "failed"
+    }
+  ],
+  "false_alarms_on_clean_branches": {},
+  "failures_caught_by_category": {
+    "late": 2,
+    "missing": 1,
+    "empty": 1,
+    "network": 1,
+    "truncated": 1,
+    "checksum_mismatch": 1,
+    "duplicate_conflict": 1,
+    "stale": 1,
+    "auth_failure": 1,
+    "disk_full": 1,
+    "permission_denied": 1
+  },
+  "destination_deliveries_counted_by_servers": 32,
+  "duplicate_jobs": 0
+}

@@ -1,0 +1,27 @@
+{% macro status(s) -%}
+<span class="status status--{{ s }}"><span class="mark" aria-hidden="true"></span>{{ STATUS_LABEL[s] }}</span>
+{%- endmacro %}
+
+{% macro health(h, short=False) -%}
+<span class="health health--{{ h or 'unknown' }}"{% if short %} title="destination: {{ HEALTH_LABEL[h] }}"{% endif %}><span class="mark" aria-hidden="true"></span>{{ HEALTH_SHORT[h] if short else HEALTH_LABEL[h] }}</span>
+{%- endmacro %}
+
+{% macro countdown(deadline, now, seconds_left, frozen, speed, at_risk, need) -%}
+<div class="clock{% if at_risk %} clock--risk{% endif %}{% if seconds_left <= 0 %} clock--past{% endif %}"
+     data-deadline="{{ deadline.isoformat() }}" data-now="{{ now.isoformat() }}"
+     data-frozen="{{ 1 if frozen else 0 }}" data-speed="{{ speed }}">
+  <p class="clock__value" aria-live="off">
+    {%- if seconds_left > 0 -%}
+      {{ '%d:%02d' % (seconds_left // 60, seconds_left % 60) }}
+    {%- else -%}
+      +{{ '%d:%02d' % ((-seconds_left) // 60, (-seconds_left) % 60) }}
+    {%- endif -%}
+  </p>
+  <p class="clock__label">{% if seconds_left > 0 %}minutes until the {{ deadline.strftime('%H:%M') }} deadline{% else %}past the {{ deadline.strftime('%H:%M') }} deadline{% endif %}</p>
+  {% if at_risk %}
+  <p class="clock__risk" role="status"><span class="mark" aria-hidden="true"></span>At risk: {{ need }} branch{{ 'es' if need != 1 }} need{{ 's' if need == 1 }} a person.</p>
+  {% elif seconds_left > 0 and need == 0 %}
+  <p class="clock__ok">Nothing needs a person right now.</p>
+  {% endif %}
+</div>
+{%- endmacro %}

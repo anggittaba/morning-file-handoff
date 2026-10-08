@@ -1,0 +1,25 @@
+branch_id,name,destination,home_staging,expected_by,schedule_slot
+BR01,Mill Road,dest-br01,staging-01,06:27,08:00
+BR02,Harbour Street,dest-br02,staging-02,06:34,08:02
+BR03,Station Square,dest-br03,staging-03,06:20,08:04
+BR04,Orchard Lane,dest-br04,staging-04,06:27,08:06
+BR05,Quarry Hill,dest-br05,staging-05,06:34,08:08
+BR06,Canal Walk,dest-br06,staging-06,06:20,08:10
+BR07,Market Cross,dest-br07,staging-07,06:27,08:12
+BR08,Linden Park,dest-br08,staging-08,06:34,08:14
+BR09,Foundry Yard,dest-br09,staging-09,06:20,08:16
+BR10,Beacon Rise,dest-br10,staging-01,06:27,08:18
+BR11,Willow Bank,dest-br11,staging-02,06:34,08:20
+BR12,Granary Row,dest-br12,staging-03,06:20,08:22
+BR13,Copper Gate,dest-br13,staging-04,06:27,08:24
+BR14,Ferry Point,dest-br14,staging-05,06:34,08:26
+BR15,Chapel Court,dest-br15,staging-06,06:20,08:28
+BR16,Kiln Lane,dest-br16,staging-07,06:27,08:30
+BR17,Salt Meadow,dest-br17,staging-08,06:34,08:32
+BR18,Tannery Close,dest-br18,staging-09,06:20,08:34
+BR19,Lantern Hill,dest-br19,staging-01,06:27,08:36
+BR20,Ropewalk,dest-br20,staging-02,06:34,08:38
+BR21,Weaver Street,dest-br21,staging-03,06:20,08:40
+BR22,Pinfold Green,dest-br22,staging-04,06:27,08:42
+BR23,Highfield,dest-br23,staging-05,06:34,08:44
+BR24,Brook Meadow,dest-br24,staging-06,06:20,08:46

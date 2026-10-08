@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% from "_macros.html" import status, health, countdown %}
+{% block title %}{{ 'Needs a person' if f == 'human' else 'Board' }}{% endblock %}
+{% block content %}
+<header class="board-head">
+  <div class="board-head__text">
+    <h1>{% if f == 'human' %}{{ tiles|length }} need{{ 's' if tiles|length == 1 }} a person{% else %}Twenty-four branches{% endif %}</h1>
+    <p class="lede">{{ now.strftime('%A %-d %B') }} · {{ now.strftime('%H:%M') }}.
+      {% if last_run %}Last pass {{ last_run.started_at|hm }} took {{ last_run.wall_ms }} ms.{% else %}No pass yet today.{% endif %}
+      {% if next_pass %}Next pass {{ next_pass.strftime('%H:%M') }}.{% endif %}</p>
+  </div>
+  {{ countdown(deadline, now, seconds_left, frozen, speed, at_risk, need) }}
+</header>
+
+<nav class="filters" aria-label="Filter branches">
+  <a href="/" {% if not f %}aria-current="true"{% endif %}><span class="filters__n">{{ total }}</span> All</a>
+  <a href="/?f=human" {% if f == 'human' %}aria-current="true"{% endif %} class="filters__human"><span class="filters__n">{{ need }}</span> Needs a person</a>
+  <a href="/?f=open" {% if f == 'open' %}aria-current="true"{% endif %}><span class="filters__n">{{ counts['waiting'] + counts['found'] + counts['sent'] }}</span> Still moving</a>
+  <a href="/?f=done" {% if f == 'done' %}aria-current="true"{% endif %}><span class="filters__n">{{ counts['scheduled'] + counts['handled'] + counts['skipped'] }}</span> Done</a>
+</nav>
+
+<section class="health-row" aria-label="Server health">
+  <div class="health-row__group">
+    <h2>Staging servers</h2>
+    <ul class="sources">
+      {% for s in staging %}
+      <li class="source source--{{ s.h.status if s.h else 'unknown' }}" title="{{ s.h.detail if s.h else 'not checked yet' }}">
+        <span class="mark" aria-hidden="true"></span>{{ s.ep.name|replace('staging-', 's') }}
+        <span class="visually-hidden">{{ HEALTH_LABEL[s.h.status if s.h else None] }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="health-row__group">
+    <h2>Destination endpoints</h2>
+    <p class="dest-summary">
+      {% for key in ['ok', 'auth_failed', 'disk_full', 'no_write', 'unreachable', None] if dest_counts[key] %}
+        {{ health(key) }} <b>{{ dest_counts[key] }}</b>{% if not loop.last %}<span class="sep" aria-hidden="true"></span>{% endif %}
+      {% endfor %}
+    </p>
+  </div>
+</section>
+
+{% if tiles %}
+<ul class="tiles" role="list">
+  {% for t in tiles %}
+  <li>
+    <a class="tile tile--{{ t.r.status }}{% if t.needs %} tile--needs{% endif %}" href="/b/{{ t.b.branch_id }}">
+      <span class="tile__top"><span class="tile__id">{{ t.b.branch_id }}</span>{{ status(t.r.status) }}</span>
+      <span class="tile__name">{{ t.b.name }}</span>
+      <span class="tile__what">
+        {%- if t.r.status == 'late' %}Not here yet; expected by {{ t.b.expected_by }}
+        {%- elif t.problem %}{{ t.problem }}
+        {%- elif t.r.status == 'scheduled' and t.r.attempts > 1 %}Job {{ t.b.schedule_slot }} · sent on try {{ t.r.attempts }}
+        {%- elif t.r.status == 'scheduled' %}Job queued for {{ t.b.schedule_slot }}
+        {%- elif t.r.status == 'found' and t.r.note %}{{ t.r.note|capitalize }}
+        {%- elif t.r.status == 'found' %}Checked, sending
+        {%- elif t.r.status == 'sent' %}Delivered, scheduling
+        {%- elif t.r.status in ('handled', 'skipped') %}{{ t.r.note }}
+        {%- else %}Expected by {{ t.b.expected_by }}{% endif -%}
+      </span>
+      <span class="tile__route">
+        <span>{{ (t.r.source or t.b.home_staging)|replace('staging-', 's') }} → {{ t.b.destination|replace('dest-', '') }}</span>
+        {{ health(t.dest_health, short=True) }}
+      </span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">Nothing here. {% if f == 'human' %}Every branch is either moving on its own or done.{% endif %}</p>
+{% endif %}
+{% endblock %}

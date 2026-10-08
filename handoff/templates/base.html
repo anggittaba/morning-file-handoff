@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Board{% endblock %} · Morning File Handoff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body data-page="{{ active }}" data-frozen="{{ 1 if frozen else 0 }}">
+  <a class="skip" href="#main">Skip to content</a>
+  <nav class="nav-pill" aria-label="Primary">
+    <a class="wordmark" href="/">handoff</a>
+    <ul class="nav-pill__links">
+      <li><a href="/" {% if active == 'board' %}aria-current="page"{% endif %}>Board</a></li>
+      <li><a href="/?f=human" {% if active == 'human' %}aria-current="page"{% endif %}>Needs a person <span class="count">{{ need }}</span></a></li>
+      <li><a href="/scheduler" {% if active == 'scheduler' %}aria-current="page"{% endif %}>Scheduler</a></li>
+      <li><a href="/runs" {% if active == 'runs' %}aria-current="page"{% endif %}>Run log</a></li>
+    </ul>
+    <form method="post" action="/run" class="nav-pill__cta" data-busy="Running…">
+      <button class="btn btn-fill" type="submit">Run a pass</button>
+    </form>
+  </nav>
+
+  <main id="main" class="page">
+    {% if flash %}<p class="flash" role="status">{{ flash }}</p>{% endif %}
+    {% if error %}<p class="flash flash--error" role="alert">{{ error }}</p>{% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="foot-stmt">
+    <p class="foot-stmt__line">Files move on their own. Decisions stay with people.</p>
+    <div class="foot-stmt__meta">
+      <span class="wordmark">Morning File Handoff</span>
+      <span>Synthetic branches and servers · nothing is sent to a chat · <a href="https://opensource.org/license/mit" rel="license">MIT licence</a></span>
+    </div>
+  </footer>
+</body>
+</html>

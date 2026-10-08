@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% from "_macros.html" import status, health %}
+{% block title %}{{ b.branch_id }} {{ b.name }}{% endblock %}
+{% block content %}
+<p class="crumb"><a href="/{% if r.status in ('failed', 'late') %}?f=human{% endif %}">← {% if r.status in ('failed', 'late') %}Needs a person{% else %}Board{% endif %}</a></p>
+<header class="detail-head">
+  <h1><span class="detail-head__id">{{ b.branch_id }}</span> {{ b.name }}</h1>
+  <p class="detail-head__status">{{ status(r.status) }}{% if title and r.status in ('failed', 'late') %}<span class="detail-head__title">{{ title }}</span>{% endif %}</p>
+  <dl class="facts-row">
+    <div><dt>Expected by</dt><dd>{{ b.expected_by }}</dd></div>
+    <div><dt>Source</dt><dd>{{ r.source or 'not found yet' }}</dd></div>
+    <div><dt>Destination</dt><dd>{{ b.destination }} {{ health(dest_health.status if dest_health else None) }}</dd></div>
+    <div><dt>Job slot</dt><dd>{{ b.schedule_slot }}</dd></div>
+  </dl>
+</header>
+
+<div class="detail-grid">
+  <div class="detail-main">
+    {% if exp %}
+    <section class="explain" aria-labelledby="explain-h">
+      <h2 id="explain-h">What happened</h2>
+      <p class="explain__lead">{{ exp.explanation }}</p>
+      <dl class="explain__list">
+        <div><dt>Likely cause</dt><dd>{{ exp.likely_cause }}</dd></div>
+        <div><dt>Next step</dt><dd>{{ exp.next_step }}</dd></div>
+        <div><dt>Who decides</dt><dd>{% if exp.decided_by == 'person' %}A person. The engine will not retry this on its own.{% else %}The engine retries automatically; step in only if it keeps failing.{% endif %}</dd></div>
+      </dl>
+      <p class="explain__engine">
+        {% if exp.engine == 'rules' %}Written by the rule-based explainer (rule: “{{ exp.rule_name }}”). No AI key is set; with one, an LLM writes this text and the rule result is kept for comparison.
+        {% else %}Written by {{ exp.engine }}. Rule-based category for comparison: {{ exp.rule_category|replace('_', ' ') }}.{% endif %}
+        {% if exp.llm_error %} The AI call failed ({{ exp.llm_error }}), so the rule text is shown.{% endif %}
+      </p>
+    </section>
+    {% endif %}
+
+    <section class="timeline" aria-labelledby="tl-h">
+      <h2 id="tl-h">Timeline <span class="muted">· append-only audit log</span></h2>
+      {% if events %}
+      <ol>
+        {% for e in events %}
+        <li class="ev ev--{{ e.outcome }}">
+          <time datetime="{{ e.ts }}">{{ e.ts|hm }}</time>
+          <span class="ev__what"><span class="ev__stage">{{ e.stage }}</span> {{ e.outcome }}{% if e.actor != 'engine' %} · {{ e.actor }}{% endif %}</span>
+          <span class="ev__detail">{{ e.detail }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+      {% else %}
+      <p class="muted">Nothing logged yet today. The first pass runs at 06:00.</p>
+      {% endif %}
+    </section>
+  </div>
+
+  <aside class="detail-side">
+    {% if r.status in ('failed', 'late', 'waiting', 'found', 'sent') %}
+    <section class="panel" aria-labelledby="act-h">
+      <h2 id="act-h">Decide</h2>
+      {% if r.status in ('failed', 'late') %}
+      <form method="post" action="/b/{{ b.branch_id }}/retry" class="form" data-busy="Retrying…">
+        <label for="retry-note">Retry now</label>
+        <p class="hint">{% if r.human_gate %}Authorises one attempt. Fix the cause first: the engine stopped because this error can lock accounts or fill disks.{% else %}Runs this branch's checks immediately instead of waiting for the next pass.{% endif %}</p>
+        <input id="retry-note" name="note" type="text" placeholder="Optional note, e.g. password updated" autocomplete="off">
+        <button class="btn btn-fill" type="submit">{% if r.human_gate %}Authorise one retry{% else %}Retry now{% endif %}</button>
+      </form>
+      {% endif %}
+      <form method="post" action="/b/{{ b.branch_id }}/handled" class="form">
+        <label for="handled-note">Mark handled</label>
+        <p class="hint">The file was dealt with outside this tool, for example copied by hand.</p>
+        <input id="handled-note" name="note" type="text" required placeholder="How it was handled" autocomplete="off">
+        <button class="btn btn-line" type="submit">Mark handled</button>
+      </form>
+      <form method="post" action="/b/{{ b.branch_id }}/skip" class="form">
+        <label for="skip-reason">Skip for today</label>
+        <p class="hint">No file will be delivered today. A reason is required and goes into the audit log.</p>
+        <input id="skip-reason" name="reason" type="text" required placeholder="Reason, e.g. branch closed today" autocomplete="off">
+        <button class="btn btn-line" type="submit">Skip with reason</button>
+      </form>
+    </section>
+    {% elif r.status in ('handled', 'skipped') %}
+    <section class="panel">
+      <h2>Closed by a person</h2>
+      <p>{{ r.note }}</p>
+      <form method="post" action="/b/{{ b.branch_id }}/reopen"><button class="btn btn-line" type="submit">Reopen</button></form>
+    </section>
+    {% endif %}
+
+    <section class="panel" aria-labelledby="file-h">
+      <h2 id="file-h">File</h2>
+      <dl class="kv">
+        <div><dt>Name</dt><dd class="mono">{{ r.file_name or (b.branch_id ~ '_' ~ day.strftime('%Y%m%d') ~ '_export.csv') }}</dd></div>
+        <div><dt>Size</dt><dd>{{ r.size|thousands }}{% if r.size %} bytes{% endif %}</dd></div>
+        <div><dt>Rows</dt><dd>{{ r.rows|thousands if r.rows else '—' }}</dd></div>
+        <div><dt>SHA-256</dt><dd{% if r.sha256 %} class="mono"{% endif %}>{{ (r.sha256[:16] ~ '…') if r.sha256 else '—' }}</dd></div>
+        <div><dt>Delivered to</dt><dd{% if r.remote_path %} class="mono"{% endif %}>{{ r.remote_path or '—' }}</dd></div>
+        <div><dt>Job</dt><dd>{% if job %}#{{ job.id }} at {{ job.run_at|hm }}, {{ job.status }}{% else %}—{% endif %}</dd></div>
+      </dl>
+    </section>
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{
+  "mornings": 30,
+  "seed": 100,
+  "injected": 88,
+  "correct": 88,
+  "false_alarm_branches": 0,
+  "clean_branches": 632,
+  "clean_scheduled": 632,
+  "duplicate_jobs": 0,
+  "per_label": {
+    "auth_failure": {
+      "injected": 7,
+      "correct": 7
+    },
+    "checksum_mismatch": {
+      "injected": 7,
+      "correct": 7
+    },
+    "disk_full": {
+      "injected": 5,
+      "correct": 5
+    },
+    "duplicate_conflict": {
+      "injected": 10,
+      "correct": 10
+    },
+    "empty": {
+      "injected": 7,
+      "correct": 7
+    },
+    "late": {
+      "injected": 9,
+      "correct": 9
+    },
+    "missing": {
+      "injected": 3,
+      "correct": 3
+    },
+    "permission_denied": {
+      "injected": 7,
+      "correct": 7
+    },
+    "stale": {
+      "injected": 9,
+      "correct": 9
+    },
+    "transient": {
+      "injected": 12,
+      "correct": 12
+    },
+    "truncated": {
+      "injected": 12,
+      "correct": 12
+    }
+  },
+  "misclassified": []
+}

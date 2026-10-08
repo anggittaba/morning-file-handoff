@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Scheduler{% endblock %}
+{% block content %}
+<header class="page-head">
+  <h1>Scheduler queue</h1>
+  <p class="lede">Every delivered file gets one destination job, queued automatically at its branch's slot. A job is never queued twice for the same branch and day. This built-in queue stands in for a separate scheduler app; it records the job and marks it due, and does not run anything downstream.</p>
+</header>
+{% if jobs %}
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Job</th><th>Branch</th><th>File</th><th>Destination</th><th>Run at</th><th>Status</th><th>Queued</th></tr></thead>
+    <tbody>
+      {% for j in jobs %}
+      <tr><td>#{{ j.id }}</td><td><a href="/b/{{ j.branch_id }}">{{ j.branch_id }}</a></td><td class="mono">{{ j.file_name }}</td>
+        <td class="mono">{{ j.remote_path }}</td><td>{{ j.run_at|hm }}</td><td>{{ j.status }}</td><td>{{ j.created_at|hm }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="empty">No jobs yet today.</p>
+{% endif %}
+{% endblock %}

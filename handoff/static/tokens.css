@@ -1,0 +1,67 @@
+/* Midnight (Hallmark catalog) · paper band: dark (L 15%) · display: geometric sans (Geist) · accent: cool cyan 220
+ * Status colours are semantic tokens added for this dashboard; they mark state, never decorate. */
+:root {
+  color-scheme: dark;
+  --color-paper:    oklch(15%  0.022 250);
+  --color-paper-2:  oklch(20%  0.024 250);
+  --color-paper-3:  oklch(25%  0.026 250);
+  --color-paper-4:  oklch(29%  0.028 250);
+  --color-rule:     oklch(33%  0.024 245);
+  --color-rule-2:   oklch(48%  0.020 240);
+  --color-muted:    oklch(66%  0.018 240);
+  --color-neutral:  oklch(74%  0.014 235);
+  --color-ink-2:    oklch(86%  0.010 230);
+  --color-ink:      oklch(95%  0.008 230);
+  --color-accent:   oklch(72%  0.16 220);
+  --color-accent-ink: oklch(17% 0.03 235);
+  --color-focus:    oklch(80%  0.14 220);
+  --color-bloom:    oklch(72%  0.16 220 / 0.09);
+  --color-scrim:    oklch(15%  0.022 250 / 0.82);
+
+  --color-ok:       oklch(78%  0.13 160);
+  --color-warn:     oklch(83%  0.14 80);
+  --color-fail:     oklch(71%  0.17 25);
+  --color-wait:     oklch(66%  0.018 240);
+
+  --font-display: "Geist", "Avenir Next", ui-sans-serif, sans-serif;
+  --font-body:    "Geist", ui-sans-serif, sans-serif;
+  --font-mono:    "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+
+  --display-weight: 300;
+  --tracking-display: -0.03em;
+  --tracking-label: 0.08em;
+
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-display-s: clamp(1.75rem, 2.5vw + 1rem, 2.75rem);
+  --text-count: clamp(2.75rem, 4vw + 1.25rem, 4.75rem);
+
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+  --page-gutter: clamp(16px, 3vw, 40px);
+  --page-max: 1200px;
+
+  --radius-card: 8px;
+  --radius-input: 6px;
+  --radius-pill: 999px;
+  --rule-hair: 1px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur: 200ms;
+}

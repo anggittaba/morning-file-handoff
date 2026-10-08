@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Run log{% endblock %}
+{% block content %}
+<header class="page-head">
+  <h1>Run log</h1>
+  <p class="lede">{{ glance.passes }} pass{{ 'es' if glance.passes != 1 }} today, every {{ '%g' % interval }} minutes from 06:00.{% if recovered %} {{ recovered }} delivered branch{{ 'es' if recovered != 1 }} hit an error first and got through on a later attempt or a re-sent file.{% endif %}</p>
+</header>
+
+<ul class="glance" role="list">
+  <li><b>{{ glance.by_deadline }}<span>/{{ total }}</span></b> delivered and scheduled by {{ deadline.strftime('%H:%M') }}</li>
+  <li><b>{{ glance.last_delivery|hm or '—' }}</b> last delivery</li>
+  <li><b class="{{ 'is-need' if need else '' }}">{{ need }}</b> still need a person</li>
+  <li><b>{{ '%.1f' % glance.engine_seconds }}<span> s</span></b> engine time across all passes</li>
+</ul>
+
+<div class="runs-grid">
+  <section class="panel draft" aria-labelledby="draft-h">
+    <h2 id="draft-h">Status message for the team chat</h2>
+    {% if draft %}
+    <p class="hint">Drafted at {{ draft.created_at|hm }} by the {{ 'template' if draft.engine == 'template' else draft.engine }}. Not sent: copy it into the chat yourself.</p>
+    <textarea id="draft-text" readonly rows="{{ [draft.text.count('\n') + 2, 14]|min }}">{{ draft.text }}</textarea>
+    <div class="row">
+      <button class="btn btn-fill" type="button" data-copy="#draft-text">Copy text</button>
+      <form method="post" action="/runs/draft"><button class="btn btn-line" type="submit">Redraft now</button></form>
+    </div>
+    {% else %}
+    <p class="hint">The first draft is written at the {{ deadline.strftime('%H:%M') }} pass. Nothing is ever sent from here.</p>
+    <form method="post" action="/runs/draft"><button class="btn btn-line" type="submit">Draft one now</button></form>
+    {% endif %}
+  </section>
+
+  <section class="panel" aria-labelledby="cats-h">
+    <h2 id="cats-h">Open problems by type</h2>
+    {% if cats %}
+    <ul class="cats">
+      {% for title, n in cats %}<li><span>{{ title }}</span><b>{{ n }}</b></li>{% endfor %}
+    </ul>
+    {% else %}<p class="hint">None open.</p>{% endif %}
+  </section>
+</div>
+
+<section class="passes" aria-labelledby="passes-h">
+  <h2 id="passes-h">Passes</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Time</th><th>Trigger</th><th class="num">Took</th><th class="num">Found</th><th class="num">Sent</th><th class="num">Scheduled</th><th class="num">New failures</th><th class="num">Done</th><th>Server errors</th></tr></thead>
+      <tbody>
+        {% for r in runs %}
+        <tr>
+          <td>{{ r.started_at|hm }}</td><td>{{ r.trigger }}</td><td class="num">{{ r.wall_ms }} ms</td>
+          <td class="num">{{ r.found or '·' }}</td><td class="num">{{ r.sent or '·' }}</td><td class="num">{{ r.scheduled or '·' }}</td>
+          <td class="num">{{ r.failed or '·' }}</td><td class="num">{{ r.done_total }}/{{ total }}</td>
+          <td class="errs">{% set errs = r.errors|fromjson %}{{ errs|join('; ') if errs else '' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="recent" aria-labelledby="recent-h">
+  <h2 id="recent-h">Latest audit entries</h2>
+  <ol>
+    {% for e in recent %}
+    <li class="ev ev--{{ e.outcome }}">
+      <time datetime="{{ e.ts }}">{{ e.ts|hm }}</time>
+      <a class="ev__branch" href="/b/{{ e.branch_id }}">{{ e.branch_id }}</a>
+      <span class="ev__what"><span class="ev__stage">{{ e.stage }}</span> {{ e.outcome }}</span>
+      <span class="ev__detail">{{ e.detail }}</span>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endblock %}
